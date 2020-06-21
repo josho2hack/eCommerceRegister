@@ -3,9 +3,29 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{D03AC8FE-B58D-41EB-9EAA-54B2C0A78BC2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "RDREgister", "RDREgister", "{3CA7991C-AC8E-4C26-A2DA-1A99A10AA636}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RDRegister.API", "src\Services\RDRegister\RDRegister.API\RDRegister.API.csproj", "{8884F8F7-6FA9-48F3-A812-ED95CD6DB482}"
+EndProject
 Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8884F8F7-6FA9-48F3-A812-ED95CD6DB482}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8884F8F7-6FA9-48F3-A812-ED95CD6DB482}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8884F8F7-6FA9-48F3-A812-ED95CD6DB482}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8884F8F7-6FA9-48F3-A812-ED95CD6DB482}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{3CA7991C-AC8E-4C26-A2DA-1A99A10AA636} = {D03AC8FE-B58D-41EB-9EAA-54B2C0A78BC2}
+		{8884F8F7-6FA9-48F3-A812-ED95CD6DB482} = {3CA7991C-AC8E-4C26-A2DA-1A99A10AA636}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2F32FA5F-BE4F-4953-BA13-0FF3EA039AF4}
