@@ -10,6 +10,13 @@ namespace RDRegister.API.Data
 
         }
 
-        public DbSet<RDTrained> RDRegisters { get; set; }
+        public DbSet<RDTrained> RDTraineds { get; set; }
+
+        //protected override void OnModelCreating(ModelBuilder builder)
+        //{
+        //    builder.Entity<RDTrained>()
+        //        .HasIndex(r => r.OfficerId)
+        //        .IsUnique();
+        //}
     }
 }

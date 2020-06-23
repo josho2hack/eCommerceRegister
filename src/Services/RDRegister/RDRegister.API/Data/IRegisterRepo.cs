@@ -8,7 +8,7 @@ namespace RDRegister.API.Data
         bool SaveChang();
 
         IEnumerable<RDTrained> GetAllTraineds();
-        RDTrained GetTrainedById(int id);
+        RDTrained GetTrainedById(string id);
 
         void CreateTrained(RDTrained rdt);
         RDTrained PutTrained(RDTrained rdt);
