@@ -7,6 +7,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RDRegister.API.Data;
+using Newtonsoft.Json.Serialization;
 
 namespace RDRegister.API
 {
@@ -25,7 +26,10 @@ namespace RDRegister.API
             services.AddDbContext<RDRegisterContext>(opt => opt.UseSqlServer
                 (Configuration.GetConnectionString("RDRegisterConectionString")));
             
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(s => 
+            {
+                s.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            });
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

@@ -9,9 +9,8 @@ namespace RDRegister.API.Data
 
         IEnumerable<RDTrained> GetAllTraineds();
         RDTrained GetTrainedById(string id);
-
         void CreateTrained(RDTrained rdt);
-        RDTrained PutTrained(RDTrained rdt);
-        void DeleteTrained(int id);
+        void UpdateTrained(RDTrained rdt,RDTrained rdtToUpdate);
+        void DeleteTrained(RDTrained rdt);
     }
 }

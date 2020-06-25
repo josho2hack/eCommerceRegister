@@ -23,9 +23,9 @@ namespace RDRegister.API.Data
             _context.Add(rdt);
         }
 
-        public void DeleteTrained(int id)
+        public void DeleteTrained(RDTrained rdt)
         {
-            throw new NotImplementedException();
+            _context.RDTraineds.Remove(rdt);
         }
 
         public IEnumerable<RDTrained> GetAllTraineds()
@@ -38,9 +38,10 @@ namespace RDRegister.API.Data
             return _context.RDTraineds.FirstOrDefault(t => t.OfficerId == id);
         }
 
-        public RDTrained PutTrained(RDTrained rdt)
+        public void UpdateTrained(RDTrained rdt, RDTrained rdtToUpdate)
         {
-            throw new NotImplementedException();
+            _context.RDTraineds.Remove(rdt);
+            _context.RDTraineds.Add(rdtToUpdate);
         }
 
         public bool SaveChang()
