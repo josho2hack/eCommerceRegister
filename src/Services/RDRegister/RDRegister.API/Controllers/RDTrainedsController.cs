@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
@@ -24,16 +25,16 @@ namespace RDRegister.API.Controllers
         }
 
         [HttpGet]
-        public ActionResult<IEnumerable<RDTrainedReadDto>> GetAllTraineds()
+        public async Task<ActionResult<IEnumerable<RDTrainedReadDto>>> GetAllTrainedsAsync()
         {
-            var trainedItems = _repository.GetAllTraineds();
+            var trainedItems = await _repository.GetAllTrainedsAsync();
             return Ok(_mapper.Map<IEnumerable<RDTrainedReadDto>>(trainedItems));
         }
 
         [HttpGet("{id}", Name = "GetTrainedById")]
-        public ActionResult<RDTrained> GetTrainedById(string id)
+        public async Task<ActionResult<RDTrained>> GetTrainedByIdAsync(string id)
         {
-            var trainedItem = _repository.GetTrainedById(id);
+            var trainedItem = await _repository.GetTrainedByIdAsync(id);
             if (trainedItem != null)
             {
                 return Ok(_mapper.Map<RDTrainedReadDto>(trainedItem));
@@ -42,26 +43,26 @@ namespace RDRegister.API.Controllers
         }
 
         [HttpPost]
-        public ActionResult<RDTrainedReadDto> CreateTrained(RDTrainedCreateDto rdtCreateDto)
+        public async Task<ActionResult<RDTrainedReadDto>> CreateTrained(RDTrainedCreateDto rdtCreateDto)
         {
             var rdtModel = _mapper.Map<RDTrained>(rdtCreateDto);
             var rdtReadDto = _mapper.Map<RDTrainedReadDto>(rdtModel);
 
-            if (_repository.GetTrainedById(rdtModel.OfficerId) != null)
+            if (await _repository.GetTrainedByIdAsync(rdtModel.OfficerId) != null)
             {
                 return Conflict(rdtReadDto);
             }
 
             _repository.CreateTrained(rdtModel);
-            _repository.SaveChang();
+            await _repository.SaveChangsAsync();
 
-            return CreatedAtRoute(nameof(GetTrainedById), new { id = rdtReadDto.OfficerId }, rdtReadDto);
+            return CreatedAtRoute(nameof(GetTrainedByIdAsync), new { id = rdtReadDto.OfficerId }, rdtReadDto);
         }
 
         [HttpPut("{id}")]
-        public ActionResult UpdateTrained(string id,RDTrainedUpdateDto rdtUpdateDto)
+        public async Task<ActionResult> UpdateTrained(string id,RDTrainedUpdateDto rdtUpdateDto)
         {
-            var rdtModelFromRepo = _repository.GetTrainedById(id);
+            var rdtModelFromRepo = await _repository.GetTrainedByIdAsync(id);
             if (rdtModelFromRepo == null)
             {
                 return NotFound();
@@ -70,28 +71,43 @@ namespace RDRegister.API.Controllers
             // _mapper.Map(rdtUpdateDto, rdtModelFromRepo);
             var rdtToUpdate = _mapper.Map<RDTrained>(rdtUpdateDto);
             _repository.UpdateTrained(rdtModelFromRepo, rdtToUpdate);
-            _repository.SaveChang();
+            await _repository.SaveChangsAsync();
 
             return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteTrained(string id)
+        public async Task<ActionResult> DeleteTrained(string id)
         {
-            var rdtModelFromRepo = _repository.GetTrainedById(id);
+            var rdtModelFromRepo = await _repository.GetTrainedByIdAsync(id);
             if (rdtModelFromRepo == null)
             {
                 return NotFound();
             }
 
             _repository.DeleteTrained(rdtModelFromRepo);
-            _repository.SaveChang();
+            await _repository.SaveChangsAsync();
             return NoContent();
         }
 
         [HttpPatch("id")]
-        public ActionResult PartialUpdateTrained(string id, JsonPatchDocument<RDTrainedUpdateDto> pathDoc)
+        public async Task<ActionResult> PartialUpdateTrained(string id, JsonPatchDocument<RDTrainedUpdateDto> patchDoc)
         {
+            var rdtModelFromRepo = await _repository.GetTrainedByIdAsync(id);
+            if (rdtModelFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            var rdtToPatch = _mapper.Map<RDTrainedUpdateDto>(rdtModelFromRepo);
+            patchDoc.ApplyTo(rdtToPatch, ModelState);
+            if (!TryValidateModel(rdtToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(rdtToPatch, rdtModelFromRepo);
+            await _repository.SaveChangsAsync();
             return NoContent();
         }
     }

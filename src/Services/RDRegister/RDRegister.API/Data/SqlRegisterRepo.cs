@@ -1,7 +1,9 @@
-﻿using RDRegister.API.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using RDRegister.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace RDRegister.API.Data
 {
@@ -28,14 +30,14 @@ namespace RDRegister.API.Data
             _context.RDTraineds.Remove(rdt);
         }
 
-        public IEnumerable<RDTrained> GetAllTraineds()
+        public async Task<IEnumerable<RDTrained>> GetAllTrainedsAsync()
         {
-             return _context.RDTraineds.ToList();
+             return await _context.RDTraineds.ToListAsync();
         }
 
-        public RDTrained GetTrainedById(string id)
+        public async Task<RDTrained> GetTrainedByIdAsync(string id)
         {
-            return _context.RDTraineds.FirstOrDefault(t => t.OfficerId == id);
+            return await _context.RDTraineds.FirstOrDefaultAsync(t => t.OfficerId == id);
         }
 
         public void UpdateTrained(RDTrained rdt, RDTrained rdtToUpdate)
@@ -44,9 +46,34 @@ namespace RDRegister.API.Data
             _context.RDTraineds.Add(rdtToUpdate);
         }
 
-        public bool SaveChang()
+        public async Task<bool> SaveChangsAsync()
         {
-            return (_context.SaveChanges() >= 0);
+            return (await _context.SaveChangesAsync() >= 0);
+        }
+
+        public Task<IEnumerable<RDTrained>> GetAllECommerceAsync()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<RDTrained> GetECommerceByIdAsync(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CreateECommerce(RDTrained rdt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateECommerce(RDTrained rdt, RDTrained rdtToUpdate)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeleteECommerce(RDTrained rdt)
+        {
+            throw new NotImplementedException();
         }
     }
 }
